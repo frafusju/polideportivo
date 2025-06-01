@@ -1,0 +1,47 @@
+<nav class="navbar navbar-light navbar-expand-xl bg-warning justify-content-center sticky-top">
+    <a routerLink="/" class="navbar-brand d-flex w-50 mr-auto">
+        <img class="img-fluid" src="assets/logo.svg" alt="Logotipo La Font d'en Carròs">        
+        <div style="display: none;">Iconos diseñados por <a href="http://www.freepik.com/"
+             title="Freepik">Freepik</a> from <a href="https://www.flaticon.es/" title="Flaticon"> www.flaticon.es</a>
+        </div>
+    </a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dropdown-menu">
+        <span class="navbar-toggler-icon"></span>
+    </button>  
+
+    <div class="navbar-collapse collapse w-100" id="dropdown-menu">
+        <ul class="navbar-nav w-100 justify-content-center">
+            <li class="nav-item px-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a routerLink="/" class="nav-link" data-toggle="collapse" data-target="#dropdown-menu">Inicio</a>
+            </li>
+            <li class="nav-item px-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a routerLink="/noticias" class="nav-link" data-toggle="collapse" data-target="#dropdown-menu">Noticias</a>
+            </li>
+            <li class="nav-item px-3" *ngIf="isLogged" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a routerLink="/reservas" class="nav-link" data-toggle="collapse" data-target="#dropdown-menu">Reservas</a>
+            </li>
+            <li class="nav-item px-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a routerLink="/tarifas" class="nav-link" data-toggle="collapse" data-target="#dropdown-menu">Tarifas</a>
+            </li>
+            <li class="nav-item px-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a routerLink="/instalaciones" class="nav-link" data-toggle="collapse" data-target="#dropdown-menu"> Instalaciones</a>
+            </li>
+            <li class="nav-item px-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a routerLink="/contacto" class="nav-link" data-toggle="collapse" data-target="#dropdown-menu">Contacto</a>
+            </li>
+        </ul>
+        <hr>
+        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+            <li class="nav-item px-3" *ngIf="!isLogged">
+                <a routerLink="/auth" class="nav-link" data-toggle="collapse" data-target="#dropdown-menu">Iniciar sesión</a>
+            </li>               
+            <li class="nav-item px-3" *ngIf="isLogged">
+                <a routerLink="/perfil-usuario" class="nav-link" data-toggle="collapse" data-target="#dropdown-menu">Perfil</a>
+            </li>                
+            <li class="nav-item px-3" *ngIf="isLogged">
+                <a routerLink="/" class="nav-link" (click)="onLogout()" data-toggle="collapse" data-target="#dropdown-menu">Cerrar sesión</a>
+            </li>
+        </ul>
+    </div>
+</nav>

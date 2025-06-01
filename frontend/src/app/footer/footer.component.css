@@ -1,0 +1,35 @@
+fa-icon {
+    font-size: 1.5em;
+}
+
+.active {
+    color: white!important;
+    font-weight: bold;
+}
+
+.footer {
+    background-color: rgba(52,58,64,1);
+    color: white;
+    flex-shrink: 0;
+}
+
+#footer_menu li, #social li {    
+    list-style: none;    
+}
+
+#footer_menu li a, #social li a {    
+    color: white;
+    text-decoration: none;
+}
+
+#legal {    
+    border-top: 1px dotted white;
+}
+
+#legal ul {
+    font-size: 0.8em; 
+}
+
+#legal a, #social a {
+    color: white;    
+}

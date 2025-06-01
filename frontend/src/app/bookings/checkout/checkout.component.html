@@ -1,0 +1,50 @@
+<div class="page-category mb-5">
+    <h1 class="bg-dark py-3 mb-3 text-center text-white">Reserva confirmada</h1>
+</div>
+
+<!-- Spinner to show while loading data from server -->
+<div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div *ngIf="!loading" class="col-md-4 offset-md-4">
+    <h2 class="text-center mb-3">Resumen de la reserva</h2>
+    <table class="table table-sm table-borderless">
+        <tbody class="text-muted">
+            <tr class="border-bottom">
+                <th>Instalación</th>
+                <td>{{ booking.facility }}</td>
+            </tr>
+            <tr class="border-bottom">
+                <th>Fecha</th>
+                <td>{{ booking.date | date: "d 'de' MMMM 'de' y" }}</td>
+            </tr>
+            <tr class="border-bottom">
+                <th>Hora de inicio</th>
+                <td>{{ booking.start_time | slice:0:5 }}</td>
+            </tr>
+            <tr class="border-bottom">
+                <th>Hora de fin</th>
+                <td>{{ booking.end_time | slice:0:5 }}</td>
+            </tr>
+            <tr class="border-bottom">
+                <th>Luz</th>
+                <td>{{ booking.light ? "Sí": "No" }}</td>
+            </tr>
+            <tr>
+                <th>Pagado</th>
+                <td>{{ booking.total_amount | currency:'EUR':'symbol':'1.2-2' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    
+    <div class="text-center mt-5 mb-5">
+        <p>Gracias por utilizar nuestras instalaciones</p>
+        <h3>¡Nos vemos el {{ booking.date | date: "dd \'de\' MMMM" }}!</h3>
+        <button type="button" class="btn mt-3" routerLink="../../perfil-usuario/mis-reservas">Ver mis reservas</button>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="page-category mb-5">
+    <h1 class="bg-dark py-3 mb-3 text-center text-white">Reservas</h1>
+</div>
+
+<!-- Spinner to show while loading data from server -->
+<div *ngIf="facilities === undefined" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div *ngIf="facilities !== undefined && user !== undefined" class="col-md-4 col-lg-6 col-xl-4 offset-md-4 offset-lg-3 offset-xl-4 mb-5">
+    <h2>Formulario de reserva de instalaciones</h2>
+    <form (ngSubmit)="onBooking(form)" #form="ngForm">
+        <div class="form-group">
+            <label for="facility">Instalación</label>
+            <select name="facility" id="facility" class="form-control" required [(ngModel)]="facilitySelected" (change)="onChange()">
+                <option value="{{ facility.id }}" *ngFor="let facility of facilities; let i=index" [selected]="i === 0">
+                    {{ facility.name }}
+                </option>
+            </select>
+        </div>    
+        <div class="form-group">        
+            <label for="booking_date">Fecha</label>
+            <input [ngClass]='{"invalid-input": !date.valid}'
+                    type="date" name="booking_date" id="booking_date" class="form-control"
+                    [(ngModel)]="dateSelected" min="{{ today }}" #date="ngModel" appDateValidator
+                    (change)="onChange()">
+            <small class="form-text text-danger" *ngIf="!date.valid && (date.touched || date.dirty)">* La fecha no puede ser anterior al día de hoy</small>
+        </div>
+        
+        <div class="form-group">        
+            <div class="row" ngModelGroup="bookingTimes" #bookingTimesGroup="ngModelGroup" appTimesValidatorDirective>            
+                <div class="col-6">
+                    <label for="start_time">Desde *</label>
+                    <input [ngClass]='{"invalid-input": !start.valid || !bookingTimesGroup.valid || already_booked}'
+                            type="time" id="start_time" name="start_time" class="form-control"
+                            [(ngModel)]="start_time" #start="ngModel" min="08:00" max="22:00" step="3600"
+                            (change)="onChangeTime()">
+                    <small class="form-text text-danger" *ngIf="!start.valid">* La hora de inicio debe estar entre las 8.00 y las 22.00 horas</small>
+                </div>
+                <div class="col-6">
+                    <label for="end_time">Hasta *</label>
+                    <input [ngClass]='{"invalid-input": !end.valid || !bookingTimesGroup.valid || already_booked}'
+                            type="time" id="end_time" name="end_time" class="form-control" 
+                            [(ngModel)]="end_time" #end="ngModel" min="09:00" max="23:00" step="3600"
+                            (change)="onChangeTime()">
+                    <small class="form-text text-danger" *ngIf="!start.valid">* La hora de fin debe estar entre las 9.00 y las 23.00 horas</small>                
+                </div>
+            </div>
+            <small class="form-text text-danger" *ngIf="bookingTimesGroup.hasError('onlyOclockTimes')">* Solo se aceptan reservas a horas en punto (por ejemplo de 19.00 a 20.00 o de 16.00 a 18.00)</small>
+            <small class="form-text text-danger" *ngIf="bookingTimesGroup.hasError('equalTimes')">* El horario de inicio no puede ser el mismo que el de finalización</small>
+            <small class="form-text text-danger" *ngIf="bookingTimesGroup.hasError('timeIncorrect')">* Comprueba los datos introducidos, el horario de apertura es de 8.00 a 23.00</small>
+            <small class="form-text text-danger" *ngIf="bookingTimesGroup.hasError('endTimeError')">* La hora de finalización no puede ser anterior a la de inicio</small>
+            <small class="form-text text-danger" *ngIf="bookingTimesGroup.hasError('max2hours')">* No se pueden reservar más de dos horas a la vez</small>
+            <small class="form-text text-danger" *ngIf="already_booked">* El horario seleccionado no está disponble. Consulte la tabla para ver los horarios libres.</small>            
+        </div>
+        <label>Horarios disponibles</label>    
+        <table class="table table-sm table-borderless">
+            <caption>* En rojo los horarios no disponibles</caption>
+            <tbody id="booked_hours" class="text-center text-muted">            
+                <tr class="border-bottom">
+                    <td id="8">8.00-9.00</td>
+                    <td id="13">13.00-14.00</td>
+                    <td id="18">18.00-19.00</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td id="9">9.00-10.00</td>
+                    <td id="14">14.00-15.00</td>
+                    <td id="19">19.00-20.00</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td id="10">10.00-11.00</td>
+                    <td id="15">15.00-16.00</td>
+                    <td id="20">20.00-21.00</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td id="11">11.00-12.00</td>
+                    <td id="16">16.00-17.00</td>
+                    <td id="21">21.00-22.00</td>
+                </tr>
+                <tr>
+                    <td id="12">12.00-13.00</td>
+                    <td id="17">17.00-18.00</td>
+                    <td id="22">22.00-23.00</td>
+                </tr>
+            </tbody>
+        </table>    
+        <div class="form-group">
+            <label for="light">Luz</label>
+            <select name="light" id="light" class="form-control" required [(ngModel)]="lightSelected" (change)="onChange()">
+                <option value="1">Sí</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+        <div class="text-center">
+            <p>Total de la reserva: {{ total_amount | currency:'EUR':'symbol':'1.2-2' }}</p>
+            <button class="btn btn-lg btn-xs-block col-md-6" type="submit">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Realizar reserva
+            </button>
+        </div>    
+        <small class="form-text text-danger" *ngIf="!form.valid">* Por favor, comprueba que todos los datos sean correctos</small>
+    </form>
+</div>

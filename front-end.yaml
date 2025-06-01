@@ -1,0 +1,20 @@
+FROM node:23-slim
+
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+# Variable de entorno
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
+WORKDIR /app
+
+COPY ./frontend ./
+
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
+RUN npm install -g @angular/cli
+RUN npm install
+#RUN npm update --unsafe-perm
+
+EXPOSE 4200
+
+CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]

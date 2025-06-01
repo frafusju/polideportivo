@@ -1,0 +1,9 @@
+.headline a {
+    text-decoration: none;
+    color: #343a40;
+}
+
+.body {
+    color: #343a40;
+    white-space: pre-line;
+}

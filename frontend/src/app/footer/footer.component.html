@@ -1,0 +1,50 @@
+<footer class="footer pt-3 container-fluid">
+    <div class="row h-100 justify-content-center">        
+        <div class="col-12 col-lg-3 col-xl-2 order-lg-3 text-center my-lg-auto">
+            <small>
+                <span class="font-weight-bold">Polideportivo La Font D'en Carròs</span><br>
+                Plaça del Ajuntament, 22, 46717<br>
+                La Font d'en Carròs, Valencia <br>
+                Tel: 962 83 30 00
+            </small>
+        </div>
+        <div id="footer_menu" class="col-12 col-lg-2 col-xl-1 offset-lg-1 text-center text-lg-left order-lg-1 mt-4 my-lg-auto">
+            <ul class="list-group">
+                <li class="mx-lg-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a routerLink="/">Inicio</a>
+                </li>
+                <li class="mx-lg-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a routerLink="/noticias">Noticias</a>
+                </li>
+                <li class="mx-lg-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a *ngIf="isLogged" routerLink="/reservas">Reservas</a>
+                </li>
+                <li class="mx-lg-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a routerLink="/tarifas">Tarifas</a>
+                </li>
+                <li class="mx-lg-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a routerLink="/instalaciones">Instalaciones</a>
+                </li>
+                <li class="mx-lg-3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a routerLink="/contacto">Contacto</a>
+                </li>
+            </ul>            
+        </div>
+        <div id="social" class="col-12 col-lg-3 col-xl-2 order-lg-2 pt-2 mt-2 my-lg-auto text-center">
+            <ul class="list-inline">
+                <li class="list-inline-item px-3"><a href="https://x.com/FontdEnCarros"><fa-icon [icon]="faTwitter"></fa-icon></a></li>
+                <li class="list-inline-item px-3"><a href="https://www.facebook.com/ajuntament.delafontdencarros"><fa-icon [icon]="faFacebook"></fa-icon></a></li>
+                <li class="list-inline-item px-3"><a href="https://www.youtube.com/@lafonttv6331"><fa-icon [icon]="faYoutube"></fa-icon></a></li>
+            </ul>            
+        </div>
+    </div>                       
+    <div class="row justify-content-center">
+        <div id="legal" class="col-12 col-lg-8 col-xl-6 pt-2 mt-2 text-center">
+            <ul class="list-inline">                                
+                <li class="list-inline-item px-1 px-lg-3"><a href="http://www.lafontdencarros.es/es/aviso-legal">Aviso legal</a></li>
+                <li class="list-inline-item px-1 px-lg-3"><a href="http://www.lafontdencarros.es/es/informacion-general">Información general</a></li>
+                <li class="list-inline-item px-1 px-lg-3"><a href="http://www.lafontdencarros.es/es/politica-cookies">Política de cookies</a></li>
+            </ul>            
+        </div>
+    </div>    
+</footer>

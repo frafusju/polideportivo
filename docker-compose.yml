@@ -1,0 +1,42 @@
+services:
+  laravel:
+    build:
+      context: .
+      dockerfile: laravel-server.yaml
+    container_name: laravel-app
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./api/storage:/var/www/html/storage
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: polideportivo
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+       context: .
+       dockerfile: front-end.yaml
+    container_name: frontend-app
+    ports:
+      - 4200:4200
+
+volumes:
+  mysql-data:

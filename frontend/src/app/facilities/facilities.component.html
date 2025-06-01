@@ -1,0 +1,28 @@
+<div class="page-category mb-5">
+    <h1 class="bg-dark py-3 mb-3 text-center text-white">Instalaciones</h1>
+</div>
+
+<!-- Spinner to show while loading data from server -->
+<div *ngIf="facilities === undefined" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div *ngIf="facilities" class="col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 mb-5">
+    <h2 class="text-center mb-3">Listado de instalaciones disponibles</h2>
+    <table class="table table-sm table-borderless">    
+        <thead class="text-center">
+            <tr class="border-bottom">
+                <th>Instalación</th>
+                <th>Cantidad</th>            
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="border-bottom" [routerLink]="'/instalaciones/'+facility.id" *ngFor="let facility of facilities">
+                <td>{{ facility.name }}</td>
+                <td class="text-right">{{ facility.quantity }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

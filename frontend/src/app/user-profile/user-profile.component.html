@@ -1,0 +1,53 @@
+<div class="page-category mb-5">
+    <h1 class="bg-dark py-3 mb-3 text-center text-white">Perfil de usuario</h1>
+</div>
+
+<!-- Spinner to show while loading data from server -->
+<div *ngIf="subscription === undefined" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div *ngIf="subscription || subscription === null" class="col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">    
+    <a type="button" class="btn btn-dark d-block mb-3" routerLink="mis-reservas">Ver mis próximas reservas</a>
+    <h2>Nombre</h2>
+    <p>{{ user.name }} {{user.surname }}</p>
+    <h2>Correo electrónico</h2>    
+    <p>{{ user.email }}</p>    
+    <h2>Estado de socio</h2>
+    <p>{{ user.is_active === 1 ? 'Activo' : 'No Socio'}}</p>    
+    <div *ngIf="!user.is_active" class="text-center mt-5">
+        <hr>
+        <p>¿Quieres convertirte en socio del polideportivo y disfrutar de precios reducidos en algunas de sus instalaciones?</p>
+        <button  type="button" class="btn mb-4" (click)="onSubscribe()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Darme de alta como socio
+        </button>
+    </div>
+    <div *ngIf="subscription && subscription.active">
+        <h2>Número de socio</h2>
+        <p>{{ user.membership_number }}</p>
+        <h2>Vencimiento de la suscripción *</h2>
+        <p>{{ subscription.membership_end | date: 'd \'de\' MMMM \'de\' yyyy' }}</p>
+        <small>* {{ subscription.cancel_at_period_end ? 'Suscripción cancelada. Puede disfrutar de las ventajas de ser socio hasta la fecha de vencimiento'
+                : 'Su suscripción se renovará automáticamente cada año' }}</small>
+        <div *ngIf="subscription.cancel_at_period_end" class="text-center mt-3 mb-3">
+            <hr>
+            <p>¿Quieres reactivar tu suscripción? No te realizaremos ningún cargo hasta la fecha de vencimiento de tu suscripción actual</p>
+            <button type="button" class="btn" (click)="onRenewSubscription()">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Reactivar suscripción
+            </button>            
+        </div>
+    </div>
+    <div *ngIf="subscription && subscription.active && !subscription.cancel_at_period_end" class="text-center mt-3 mb-3">
+        <hr>        
+        <p>¿Quieres cancelar tu suscripción como socio del polideportivo? No pasaremos 
+            más cargos a tu tarjeta y podrás disfrutar de tu suscripción hasta la fecha de vencimiento</p>
+        <button type="button" class="btn" (click)="onCancelSubscription()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Cancelar suscripción
+        </button>
+    </div>
+</div>

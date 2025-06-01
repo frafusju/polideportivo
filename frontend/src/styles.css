@@ -1,0 +1,56 @@
+/** Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('open-iconic/font/css/open-iconic-bootstrap.css');
+
+html, body {
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+button[type="button"] {        
+    border: 2px solid #343a40;
+    border-radius: 5px;
+    color: black;
+}
+
+button[type="submit"] {
+    background-color: #343a40;
+    color: white;
+}
+
+h1 {
+    font-size: 1.75em;
+}
+
+h2 {
+    border-top: 1px dotted #343a40;
+    border-bottom: 1px dotted #343a40;    
+
+    font-size: 1.2em;
+    font-weight: bold;
+    padding-bottom: 0.5em;    
+    padding-top: 0.5em;    
+}
+
+.border-bottom {
+    border-bottom: 1px dotted #343a40;
+}
+
+.invalid-input {
+    background-color: #FBEDED;
+    border: 1px solid #d9534f;
+}
+
+.page-category {
+    width: 100vw;
+    position: relative;
+    margin-left: -50vw;
+    left: 50%;    
+}
+
+.table-borderless {
+    border: none;
+}

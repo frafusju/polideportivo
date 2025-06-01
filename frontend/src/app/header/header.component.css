@@ -1,0 +1,10 @@
+button[type="button"] {    
+    background-color: transparent;        
+}
+
+.active {
+    color:#343a40!important;
+    font-weight: bold;
+    border-bottom: 1px dotted #343a40;
+    border-top: 1px dotted #343a40;    
+}

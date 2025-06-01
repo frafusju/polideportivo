@@ -1,0 +1,23 @@
+<div class="page-category mb-5">
+    <h1 class="bg-dark py-3 mb-3 text-center text-white">Noticias</h1>
+</div>
+
+<!-- Spinner to show while loading data from server -->
+<div *ngIf="news_item === undefined" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div *ngIf="news_item" class="d-flex row mb-5 news-item">
+    <div class="order-2 col-12 col-lg-6 offset-lg-3">
+        <h2 class="headline"><a [routerLink]="'/noticias/'+news_item.id">{{ news_item.headline }}</a></h2>
+        <small class="subhead text-muted">{{ news_item.subhead }}</small>
+        <hr>
+        <img class="img-fluid mx-auto d-block" src="{{ news_item.image }}" alt="Imagen noticia" />
+        <hr>
+        <p class="font-italic">La Font d'En Carròs {{ news_item.created_at | date: "dd \'de\' MMMM \'de\' yyyy" }}</p>
+        <p class="body text-justify">{{ news_item.body }}</p>    
+    </div>
+    
+</div>

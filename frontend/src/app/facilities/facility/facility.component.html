@@ -1,0 +1,55 @@
+<div class="page-category mb-5">
+    <h1 *ngIf="facility" class="bg-dark py-3 mb-3 text-center text-white">{{ facility['name'] }}</h1>
+</div>
+
+<!-- Spinner to show while loading data from server -->
+<div *ngIf="facility === undefined" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div *ngIf="facility" class="col-12 col-xl-10 offset-xl-1 mb-5">
+    <div class="row">
+        <div class="col-12 col-lg-6 offset-lg-3 mb-3 mb-3">
+            <div class="text-center">
+                <img src="{{ facility['image'] }}" alt="Imagen de la instalación" class="img-fluid">
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 offset-lg-3">
+            <h2 class="text-center mb-3">Detalles</h2>
+            <table class="table table-sm table-borderless">        
+                <tbody>        
+                    <tr class="border-bottom">
+                        <th>Material</th>
+                        <td>{{ facility['surface'] }}</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <th>Cantidad</th>
+                        <td>{{ facility['quantity'] }}</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <th>Máximo de usuarios</th>
+                        <td>{{ facility['max_users'] }}</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <th>Iluminación</th>
+                        <td>{{ facility['light'] === 1 ? "Sí" : "No"}}</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <th>Precio por hora</th>
+                        <td>{{ facility['price'] | currency:'EUR':'symbol':'1.2-2' }}</td>
+                    </tr>        
+                    <tr class="border-bottom" *ngIf="facility['price_member']">
+                        <th>Precio por hora (socios)</th>
+                        <td>{{ facility['price_member'] | currency:'EUR':'symbol':'1.2-2' }}</td>
+                    </tr>        
+                    <tr class="border-bottom">
+                        <th>Precio luz</th>            
+                        <td>{{ facility['price_light'] | currency:'EUR':'symbol':'1.2-2' }}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

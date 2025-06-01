@@ -1,0 +1,90 @@
+<div class="page-category mb-5">
+    <h1 class="bg-dark py-3 mb-3 text-center text-white">Próximas reservas</h1>
+</div>
+
+<!-- Spinner to show while loading data from server -->
+<div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div *ngIf="!loading && !areBookings" class="text-center mb-5">
+    <h3 class="mb-5">¡No tienes próximas reservas!</h3>
+    <p class="mb-5">¿No tienes ganas de hacer algo de deporte?</p>
+    <button type="button" class="btn" routerLink="../../reservas">Reserva tu instalación ahora</button>
+</div>
+
+<div *ngIf="!loading && areBookings" class="accordion col-md-8 offset-md-2 col-lg-4 offset-lg-4" id="accordion">
+    <div *ngFor="let booking of bookings; let i = index" class="card">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <button class="btn" data-toggle="collapse" [attr.data-target]="'#collapse' + i" (click)="onCollapse($event)">
+            <span class="oi oi-chevron-right mr-3"></span>
+            {{ booking.date | date: "d '\de'\ MMMM '\de'\ y" }} para {{ booking.name | lowercase }}
+          </button>
+        </h5>
+      </div>
+  
+      <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+            <table class="table table-sm table-borderless">
+                <tbody class="text-muted">
+                    <tr class="border-bottom pb-5">
+                        <th>Instalación</th>
+                        <td>{{ booking.name }}</td>
+                    </tr>
+                    <tr class="border-bottom pb-5">
+                        <th>Fecha</th>
+                        <td>{{ booking.date | date: "d 'de' MMMM 'de' y" }}</td>
+                    </tr>
+                    <tr class="border-bottom pb-5">
+                        <th>Horario</th>
+                        <td>{{ booking.start_time | slice:0:5 }} a {{ booking.end_time | slice:0:5 }}</td>
+                    </tr>                
+                    <tr class="border-bottom pb-5">
+                        <th>Luz</th>
+                        <td>{{ booking.light ? "Sí": "No" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Pagado</th>
+                        <td>{{ booking.total_amount | currency:'EUR':'symbol':'1.2-2' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- <div *ngIf="!loading && areBookings" class="col-md-4 offset-md-4">
+    <h2 class="text-center mb-3">Detalle de mis próximas reservas</h2>
+    <table *ngFor="let booking of bookings; let i = index" class="table table-sm table-borderless mb-5">
+        <tbody class="text-muted">
+            <tr class="border-bottom">
+                <th>Instalación</th>
+                <td>{{ booking.name }}</td>
+            </tr>
+            <tr class="border-bottom">
+                <th>Fecha</th>
+                <td>{{ booking.date | date: "d 'de' MMMM 'de' y" }}</td>
+            </tr>
+            <tr class="border-bottom">
+                <th>Hora de inicio</th>
+                <td>{{ booking.start_time | slice:0:5 }}</td>
+            </tr>
+            <tr class="border-bottom">
+                <th>Hora de fin</th>
+                <td>{{ booking.end_time | slice:0:5 }}</td>
+            </tr>
+            <tr class="border-bottom">
+                <th>Luz</th>
+                <td>{{ booking.light ? "Sí": "No" }}</td>
+            </tr>
+            <tr>
+                <th>Pagado</th>
+                <td>{{ booking.total_amount | currency:'EUR':'symbol':'1.2-2' }}</td>
+            </tr>
+        </tbody>
+    </table>    
+</div> -->

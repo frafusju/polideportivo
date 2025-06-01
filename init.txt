@@ -1,0 +1,11 @@
+# Construir los servicios definidos en docker-compose.yml
+docker-compose build
+
+# Levantar los servicios
+docker-compose up -d
+
+# Mostrar los logs
+docker-compose logs -f
+
+#Parar los servicios
+docker-compose down -v

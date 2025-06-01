@@ -1,0 +1,7 @@
+.table-legend { 
+    font-size: 0.75em;
+}
+
+table th, table td {
+    width: 50%;
+}
