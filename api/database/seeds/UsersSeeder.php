@@ -11,7 +11,7 @@ class UsersSeeder extends Seeder
             [
                 'name' => 'Kiko',
                 'surname' => 'Fuster Just',
-                'birth_date' => '1994-18-08',
+                'birth_date' => '1994-08-18',
                 'dni' => '12345678A',
                 'membership_number' => '001',
                 'is_active' => true,

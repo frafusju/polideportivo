@@ -14,16 +14,42 @@ export class MybookingsComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {    
+ ngOnInit(): void {    
     this.loading = true;
-    const user = localStorage.getItem('user');    
-    this.http.get('//localhost:8000/api/bookings/booking/' + user).subscribe( bookings => {
-      this.bookings = bookings;
-      
-      this.areBookings = Object.keys(bookings).length === 0 ? false : true;      
-      this.loading = false;      
-    });  
-  }
+
+    // Depuración: Verifica el valor de localStorage
+    const userRaw = localStorage.getItem('user');
+    console.log('Valor de localStorage (user):', userRaw);
+
+    let userId = null; // Inicializa userId con un valor predeterminado
+
+    try {
+        const user = JSON.parse(userRaw || 'null');
+        userId = typeof user === 'number' ? user : user?.id;
+    } catch (error) {
+        console.error('Error al analizar el valor de localStorage (user):', error);
+    }
+
+    if (!userId) {
+        console.error('No se encontró el ID del usuario en localStorage');
+        alert('Por favor, inicia sesión para ver tus reservas.');
+        this.loading = false;
+        this.areBookings = false;
+        return;
+    }
+
+    // Realiza la solicitud al backend
+    this.http.get(`//localhost:8000/api/bookings/booking/${userId}`).subscribe((bookings: any[]) => {
+        console.log('Reservas obtenidas:', bookings); // Para depuración
+        this.bookings = bookings;
+        this.areBookings = bookings.length > 0;
+        this.loading = false;
+    }, error => {
+        console.error('Error al cargar las reservas:', error);
+        this.loading = false;
+        this.areBookings = false;
+    });
+}
 
   onCollapse(event) {    
     const clicked_element = event.target.localName;

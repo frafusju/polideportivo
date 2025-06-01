@@ -34,17 +34,17 @@ export class AuthService {
 
     login(loginData: LoginData) {     
         this.http.post<any>('//localhost:8000/api/auth/login', loginData).subscribe( response => {                                    
-            localStorage.setItem('token', response.access_token);            
+        localStorage.setItem('token', response.access_token);            
             localStorage.setItem('user', response.user.id);            
 
             this.currentUserSubject.next(response.user.id);            
-            this.router.navigate(['../perfil-usuario']);
-        }, loginError => {                            
-            console.log(loginError);            
+        this.router.navigate(['../perfil-usuario']);
+    }, loginError => {                            
+        console.log(loginError);            
             if(loginError.error.error === "Unauthorized") {
-                this.loginError.next(true);                
-            }
-        });
+            this.loginError.next(true);                
+        }
+    });
     }
 
     logout() {

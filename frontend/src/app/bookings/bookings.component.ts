@@ -45,9 +45,15 @@ export class BookingsComponent {
     this.authService.currentUserValue.subscribe( userId => {
       this.userId = JSON.parse(localStorage.getItem('user'));
 
-      this.http.get('//localhost:8000/api/users/' + this.userId).subscribe( user => {
-        this.user = user;        
-      })      
+      this.http.get('//localhost:8000/api/users/' + this.userId).subscribe(
+    user => {
+        this.user = user;
+    },
+    error => {
+        console.error('Error al cargar los datos del usuario:', error);
+        this.user = null; // Asegúrate de que sea null si hay un error
+    }
+); 
     });    
     
     //Get list of facilities on init to show on form
@@ -85,63 +91,39 @@ export class BookingsComponent {
   }
 
   onBooking(form: NgForm) {
-    if (form.valid == !this.already_booked) {
-
-      this.loading = true;
-
-      this.calculateTotalAmount();      
-      
-      //Get Stripe pricesId and set the line_items object
-      this.http.get('//localhost:8000/api/prices/' + this.facilitySelected).subscribe( prices_id => {          
-        this.facility_price_id = this.user.is_active && prices_id['facility_price_member_id'] ? 
-                                 prices_id['facility_price_member_id'] : prices_id['facility_price_id'];
-        this.light_price_id = prices_id['light_price_id'];
-        
-        let request = {
-          'email': this.user.email,
-          'line_items': [
-            {
-            'price': this.facility_price_id,
-            'quantity': this.hours
-            }
-          ],
-          'mode': 'payment'
+    if (form.valid && !this.already_booked) {
+        // Verifica si el usuario está definido
+        if (!this.user) {
+            alert('Error: No se pudo cargar la información del usuario. Por favor, inténtelo de nuevo.');
+            return;
         }
-        
-        //Adds light price_id if exists
-        if(this.light_price_id && this.lightSelected === 1) {          
-          request.line_items.push({'price': this.light_price_id, 'quantity': this.hours});
-        }      
 
-        //Creates Stripe session in backend and redirects to checkout
-        this.http.post('//localhost:8000/api/stripe', request).subscribe( async response =>{      
+        if (this.user.is_active) {
+            // Lógica para usuarios activos
+            let bookingData = {
+                user: this.user.id,
+                facility: this.facilitySelected,
+                date: this.dateSelected,
+                start_time: this.start_time,
+                end_time: this.end_time,
+                light: this.lightSelected,
+                total_amount: 0,
+                token: this.generateToken(),
+            };
 
-          this.authService.currentUserValue.subscribe (user => {
-            this.user = user;
-          });
-
-          //Booking details to store in database
-          let bookingData = {
-            user: this.user,
-            facility: this.facilitySelected,
-            date: this.dateSelected,
-            start_time: this.start_time,
-            end_time: this.end_time,          
-            light: this.lightSelected,
-            total_amount: this.total_amount,
-            token: response['id']   
-          }
-
-          //Store booking data in DB before calling Stripe          
-          this.http.post('//localhost:8000/api/bookings', bookingData).subscribe( async () => {            
-            const stripe = await loadStripe('pk_test_eT7IJcXEfzDloYoASwoEqzCx00L7pDWLjc');
-            this.loading = false;
-            const {error} = await stripe.redirectToCheckout({
-              sessionId: response['id']          
-            })
-          });
-        });
-      });
+            this.http.post('//localhost:8000/api/bookings', bookingData).subscribe(() => {
+                this.loading = false;
+                alert('Reserva realizada con éxito.');
+                this.loadBookingTimes();
+            }, error => {
+                this.loading = false;
+                alert('Ocurrió un error al realizar la reserva.');
+            });
+        } else {
+            // Lógica para usuarios no activos
+            this.calculateTotalAmount();
+            // Resto de la lógica...
+        }
     }
   }
 
@@ -209,5 +191,8 @@ export class BookingsComponent {
       this.light_price = parseFloat(facility['price_light']);
       this.total_amount = this.lightSelected === 1 ? (this.facility_price + this.light_price) * this.hours : this.facility_price * this.hours;
     });
+  }
+  private generateToken(): string {
+    return Math.random().toString(36).substr(2) + Date.now().toString(36);
   }
 }

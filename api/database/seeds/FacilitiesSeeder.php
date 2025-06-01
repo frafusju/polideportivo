@@ -1,17 +1,11 @@
 <?php
 
-namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class FacilitiesSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         DB::table('facilities')->insert([
@@ -74,6 +68,78 @@ class FacilitiesSeeder extends Seeder
                 'price_light' => 2.50,
                 'surface' => 'Dura',
                 'image' => 'assets/tenisdura.jpg',
+            ],
+            [
+                'name' => 'Tenis tierra batida',
+                'description' => 'Pista de tenis con superficie de tierra batida.',
+                'max_users' => 4,
+                'quantity' => 2,
+                'light' => true,
+                'price' => 7.50,
+                'price_member' => 6.00,
+                'price_light' => 2.50,
+                'surface' => 'Tierra batida',
+                'image' => 'assets/tenistierra.jpg',
+            ],
+            [
+                'name' => 'Pádel',
+                'description' => 'Pista de pádel para un máximo de 4 jugadores.',
+                'max_users' => 4,
+                'quantity' => 2,
+                'light' => true,
+                'price' => 12.00,
+                'price_member' => 9.00,
+                'price_light' => 3.00,
+                'surface' => 'Cristal',
+                'image' => 'assets/padel.jpg',
+            ],
+            [
+                'name' => 'Pista de atletismo',
+                'description' => 'Pista de atletismo al aire libre.',
+                'max_users' => 20,
+                'quantity' => 1,
+                'light' => false,
+                'price' => 1.50,
+                'price_member' => 1.00,
+                'price_light' => 0.00, // Valor predeterminado
+                'surface' => 'Tartán',
+                'image' => 'assets/atletismo.jpg',
+            ],
+            [
+                'name' => 'Petanca',
+                'description' => 'Zona de petanca al aire libre.',
+                'max_users' => 10,
+                'quantity' => 1,
+                'light' => false,
+                'price' => 1.50,
+                'price_member' => 1.00,
+                'price_light' => 0.00, // Valor predeterminado
+                'surface' => 'Arena',
+                'image' => 'assets/petanca.jpg',
+            ],
+            [
+                'name' => 'Sauna',
+                'description' => 'Sauna para relajación.',
+                'max_users' => 5,
+                'quantity' => 1,
+                'light' => false,
+                'price' => 5.00,
+                'price_member' => 4.00,
+                'price_light' => 0.00, // Valor predeterminado
+                'surface' => 'Madera',
+                'image' => 'assets/sauna.jpg',
+            ],
+            [
+                'name' => 'Sala multiusos',
+                'description' => 'Sala multiusos para actividades diversas.',
+                'max_users' => 20,
+                'quantity' => 1,
+                'light' => true,
+                'price' => 18.00,
+                'price_member' => null,
+                'price_light' => 6.00,
+                'surface' => 'Parquet',
+                'image' => 'assets/salamultiusos.jpg',
             ],
         ]);
     }

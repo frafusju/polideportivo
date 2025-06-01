@@ -20,19 +20,46 @@ class FacilitiesUsersController extends Controller
 
     /** Saves a new booking (needs to confirm payment in StripeWebhookController) */
     public function saveBooking(Request $request) {
-        $booking = new FacilitiesUsers;
+    $request->validate([
+        'user' => 'required|integer',
+        'facility' => 'required|integer',
+        'date' => 'required|date',
+        'start_time' => 'required|date_format:H:i',
+        'end_time' => 'required|date_format:H:i|after:start_time',
+        'light' => 'required|boolean',
+        'total_amount' => 'required|numeric|min:0',
+        'token' => 'required|string',
+    ]);
 
-        $booking->users_id = $request->user;
-        $booking->facilities_id = $request->facility;
-        $booking->date = $request->date;
-        $booking->start_time = $request->start_time;
-        $booking->end_time = $request->end_time;
-        $booking->light = $request->light;
-        $booking->total_amount = $request->total_amount;
-        $booking->token = $request->token;
+    $booking = new FacilitiesUsers;
 
-        $booking->save();
-    }
+    $booking->users_id = $request->user;
+    $booking->facilities_id = $request->facility;
+    $booking->date = $request->date;
+    $booking->start_time = $request->start_time;
+    $booking->end_time = $request->end_time;
+    $booking->light = $request->light;
+    $booking->total_amount = $request->total_amount;
+    $booking->token = $request->token;
+
+    // Verifica si el usuario es socio
+    $isMember = $this->isUserMember($request->user);
+    $booking->payment_accepted = $isMember ? 1 : 0;
+
+    $booking->save();
+
+    return response()->json(['message' => 'Reserva creada con éxito'], 201);
+}
+
+/**
+ * Verifica si un usuario es socio.
+ *
+ * @param int $userId
+ * @return bool
+ */
+private function isUserMember($userId) {
+    return \App\User::where('id', $userId)->value('is_active') == 1;
+}
 
     /** Gets all bookings for a certain user */
     public function getUserBookings($user_id) {
