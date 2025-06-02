@@ -1,6 +1,6 @@
 /** Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-@import url('open-iconic/font/css/open-iconic-bootstrap.css');
+@import url('open-iconic/font/css/open-iconic-foundation.css');
 
 html, body {
     font-family: 'Montserrat', sans-serif;

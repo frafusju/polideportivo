@@ -14,7 +14,7 @@
         <h2 class="headline"><a [routerLink]="'/noticias/'+news_item.id">{{ news_item.headline }}</a></h2>
         <small class="subhead text-muted">{{ news_item.subhead }}</small>
         <hr>
-        <img class="img-fluid mx-auto d-block" src="{{ news_item.image }}" alt="Imagen noticia" />
+        <img class="img-fluid mx-auto d-block" src="assets/news/{{ news_item.image }}" alt="Imagen noticia" />
         <hr>
         <p class="font-italic">La Font d'En Carròs {{ news_item.created_at | date: "dd \'de\' MMMM \'de\' yyyy" }}</p>
         <p class="body text-justify">{{ news_item.body }}</p>    
