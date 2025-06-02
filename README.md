@@ -49,6 +49,20 @@ El repositori està organitzat per facilitar la gestió del projecte educatiu:
 *   `docker-compose.yml`: Fitxer de configuració per orquestrar els contenidors Docker.
 *   Altres fitxers de configuració i recursos del projecte.
 
+### Arquitectura del Projecte
+
+L'aplicació web de gestió de reserves utilitza una arquitectura que separa clarament la part del client de la del servidor [3, 4].
+
+1.  **Arquitectura del Front-end**: La part del client utilitza una arquitectura **Single Page Application (SPA)** [3]. S'ha desenvolupat amb el framework **Angular**, que s'encarrega de construir i gestionar les vistes que l'usuari veu al navegador [3]. S'ha utilitzat també **Bootstrap** per a l'estil i maquetació, amb un enfocament "mobile-first" [15, 16].
+2.  **Arquitectura del Back-end**: La part del servidor és una **API** construïda amb el framework **Laravel** [3]. La seva funció és gestionar la lògica de negoci, interactuar amb la base de dades i servir les dades necessàries al frontend [3].
+3.  **Base de Dades**: S'utilitza **MySQL** com a sistema de gestió de base de dades [12]. La comunicació amb la base de dades es realitza a través del backend (Laravel) [3].
+
+Aquesta estructura resulta en un sistema **totalment desacoblat** [4]. El frontend i el backend es comuniquen mitjançant **peticions asíncrones** [4]. Quan l'usuari interactua amb la interfície (Angular), es realitzen peticions al servidor (Laravel), que recupera la informació de la base de dades i la retorna en format **JSON** [4]. El format JSON és lleuger i facilita l'actualització fluida de parts de l'aplicació **sense recarregar la pàgina** [5]. Aquesta arquitectura permet una web **lleugera** on el processament de la interfície es fa al client [5].
+
+Per facilitar la configuració de l'entorn de desenvolupament local amb el frontend, backend i base de dades, la major part de la infraestructura es gestiona mitjançant **Docker Compose** [2]. El fitxer `docker-compose.yml` al directori arrel del projecte defineix els serveis necessaris [13, 14].
+
+---
+
 ## Instal·lació i Execució
 
 ### Instruccions d'Instal·lació
